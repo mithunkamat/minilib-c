@@ -4,27 +4,27 @@
 
 ## Path
 COMMON_PATH = ../../..
-LIB_PATH = $(COMMON_PATH)/lib/avr32/avr32-a
+LIB_PATH = $(COMMON_PATH)/lib/arm-cm3/GCC
 
 ## General Flags
 PROJECT = mini
- # CPU architecture: {ap|ucr1|ucr2}
-ARCH = ucr2
-# Part: {none|ap7xxx|uc3xxxxx}
-PART = uc3a0512
+CPU = cortex-m3
 TARGET = mini.elf
 LIB_TARGET = $(LIB_PATH)/libmini.a
-CC = avr32-gcc
-AR = avr32-ar
 
-CPP = avr32-g++
+CC = arm-none-eabi-gcc
+AR = arm-none-eabi-ar
+CPP = arm-none-eabi-g++
+SIZE = arm-none-eabi-size
+OBJCOPY = arm-none-eabi-objcopy
+OBJDUMP = arm-none-eabi-objdump
 
 ## Options common to compile, link and assembly rules
-COMMON = -march=$(ARCH) -mpart=$(PART)
+COMMON = -mcpu=$(CPU) -mthumb
 
 ## Compile options common for all C compilation units.
 CFLAGS = $(COMMON)
-CFLAGS += -Wall -gdwarf-2 -std=gnu99 -Os -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums -D__AVR32__ -ffunction-sections  -fdata-sections -fno-strict-aliasing 
+CFLAGS += -Wall -gdwarf-2 -std=gnu99 -Os -mapcs-frame -mthumb-interwork -D__CORTEX_M3__ -ffunction-sections  -fdata-sections -fno-strict-aliasing 
 CFLAGS += -MD -MP -MT $(*F).o -MF dep/$(@F).d 
 
 ## Assembly specific flags
@@ -34,39 +34,36 @@ ASMFLAGS += -x assembler-with-cpp -Wa,-gdwarf2
 
 ## Linker flags
 LDFLAGS = $(COMMON)
-LDFLAGS +=  -Wl,-Map=mini.map -Wl,--gc-sections -T link_uc3a0512.lds
-
-
-## Intel Hex file production flags
-HEX_FLASH_FLAGS = -R .eeprom -R .fuse -R .lock -R .signature
-
-HEX_EEPROM_FLAGS = -j .eeprom
-HEX_EEPROM_FLAGS += --set-section-flags=.eeprom="alloc,load"
-HEX_EEPROM_FLAGS += --change-section-lma .eeprom=0 --no-change-warnings
-
+LDFLAGS +=  -Wl,-Map=mini.map -Wl,--gc-sections -T Linker_Script_GCC.ld
 
 ## Include Directories
 INCLUDES = -I$(COMMON_PATH)/include 
 
 ## Objects that must be built in order to link
-LIB_OBJECTS = toupper.o isalnum.o isalpha.o isascii.o isblank.o iscntrl.o isdigit.o islower.o isprint.o ispunct.o isspace.o isupper.o isxdigit.o toascii.o tolower.o scanf.o fgetc.o fgets.o fputc.o fputs.o getchar.o printf.o putchar.o strtol.o abs.o assert.o atoi.o atol.o calloc.o div.o exit.o ldiv.o malloc.o rand.o strupr.o bcmp.o bcopy.o bzero.o index.o memccpy.o memchr.o memcmp.o memcpy.o memmove.o mempcpy.o memset.o rindex.o strcat.o strchr.o strcmp.o strcoll.o strcpy.o strcspn.o strlcat.o strlcpy.o strlen.o strlwr.o strncat.o strncmp.o strncpy.o strnlen.o strrchr.o strspn.o strstr.o 
+LIB_OBJECTS = ctype_.o toupper.o isalnum.o isalpha.o isascii.o isblank.o iscntrl.o isdigit.o islower.o isprint.o ispunct.o isspace.o isupper.o isxdigit.o toascii.o tolower.o scanf.o fgetc.o fgets.o fputc.o fputs.o getchar.o printf.o putchar.o strtol.o abs.o assert.o atoi.o atol.o calloc.o div.o exit.o ldiv.o malloc.o rand.o strupr.o bcmp.o bcopy.o bzero.o index.o memccpy.o memchr.o memcmp.o memcpy.o memmove.o mempcpy.o memset.o rindex.o strcat.o strchr.o strcmp.o strcoll.o strcpy.o strcspn.o strlcat.o strlcpy.o strlen.o strlwr.o strncat.o strncmp.o strncpy.o strnlen.o strrchr.o strspn.o strstr.o 
 
-OBJECTS = $(LIB_OBJECTS) test.o syscalls.o
+OBJECTS = $(LIB_OBJECTS) test.o syscalls.o Startup_GCC.o STM32F10x_GCC.o
 
 ## Objects explicitly added by the user
 LINKONLYOBJECTS = 
 
 ## Build
-all: $(TARGET) $(LIB_TARGET) mini.hex mini.eep mini.lss size
+all: $(TARGET) $(LIB_TARGET) size
 
 ## Compile
-crt0.o: crt0.S
-	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
-	
-test.o: test.c
+Startup_GCC.o: Startup_GCC.s
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
-syscalls.o: syscalls.c
+STM32F10x_GCC.o: STM32F10x_GCC.s
+	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+	
+test.o: ../../test.c
+	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+
+syscalls.o: $(COMMON_PATH)/syscalls_template/syscalls.c
+	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+
+ctype_.o: $(COMMON_PATH)/ctype/ctype_.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
 toupper.o: $(COMMON_PATH)/ctype/toupper.c
@@ -268,24 +265,17 @@ $(TARGET): $(OBJECTS)
 $(LIB_TARGET): $(LIB_OBJECTS)
 	 $(AR) rcs $(LIB_TARGET) $(LIB_OBJECTS) 
 	 
-%.hex: $(TARGET)
-	avr32-objcopy -O ihex $(HEX_FLASH_FLAGS)  $< $@
-
-%.eep: $(TARGET)
-	-avr32-objcopy $(HEX_EEPROM_FLAGS) -O ihex $< $@ || exit 0
-
-%.lss: $(TARGET)
-	avr32-objdump -h -S $< > $@
 
 size: ${TARGET}
 	@echo
-	@avr32-size ${TARGET}
-	@avr32-size -A -d ${TARGET}
+	@$(SIZE) ${TARGET}
+	@$(SIZE) -A -d ${TARGET}
+	@$(SIZE) -B ${LIB_TARGET}
 
 ## Clean target
 .PHONY: clean
 clean:
-	-rm -rf $(OBJECTS) mini.elf dep/* mini.hex mini.eep mini.lss mini.map
+	-rm -rf $(OBJECTS) mini.elf dep/* mini.map
 
 
 ## Other dependencies
