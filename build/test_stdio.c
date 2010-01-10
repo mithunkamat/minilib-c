@@ -17,30 +17,37 @@
  *
  ****************************************************
  *
- * File: test_ctype.c
- * Use : test bench for ctype functions
+ * File: test_stdio.c
+ * Use : test bench for stdio functions
  *
  ****************************************************
  *
  * S. DI MERCURIO: 01-10-10 : first release
  *
  */
- 
-int test_ctype(void);
-int test_stdio(void);
-int test_stdlib (void);
-int test_string (void);
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
 
 volatile int res;
+char *buffer[10];
+char *ptr;
 
-int main (void)
+int test_stdio (void)
 {
-	res=0;
+/* standard ISO C 99 */
 
-	res = test_ctype();
-	res = test_stdio();
-	res = test_stdlib();
-	res = test_string();
+	res = fgetc(stdin);
+	ptr = fgets(buffer, 1, stdin);
+	res = fputc ('c', stdout);
+	res = fputs (buffer, stdout);
+	res = getchar();
+	res = printf ("Hello world !");
+	res = putchar ('c');
+	res = sscanf ("", "");
+/* minilib specific */
 	
-	for (;;);
+	
+	return res;
 }

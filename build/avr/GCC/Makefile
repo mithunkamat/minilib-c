@@ -21,7 +21,9 @@ COMMON = -mmcu=$(MCU)
 
 ## Compile options common for all C compilation units.
 CFLAGS = $(COMMON)
-CFLAGS += -Wall -gdwarf-2 -std=gnu99 -Os -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums -D__AVR__ -ffunction-sections  -fdata-sections  
+CFLAGS += -Wall -gdwarf-2 -std=gnu99 -Os   
+CFLAGS += -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums -ffunction-sections -fdata-sections
+CFLAGS += -D__AVR__ -DPREFER_SIZE_OVER_SPEED 
 CFLAGS += -MD -MP -MT $(*F).o -MF dep/$(@F).d 
 
 ## Assembly specific flags
@@ -41,14 +43,13 @@ HEX_EEPROM_FLAGS = -j .eeprom
 HEX_EEPROM_FLAGS += --set-section-flags=.eeprom="alloc,load"
 HEX_EEPROM_FLAGS += --change-section-lma .eeprom=0 --no-change-warnings
 
-
 ## Include Directories
 INCLUDES = -I$(COMMON_PATH)/include 
 
 ## Objects that must be built in order to link
 LIB_OBJECTS = toupper.o isalnum.o isalpha.o isascii.o isblank.o iscntrl.o isdigit.o islower.o isprint.o ispunct.o isspace.o isupper.o isxdigit.o toascii.o tolower.o scanf.o fgetc.o fgets.o fputc.o fputs.o getchar.o printf.o putchar.o strtol.o abs.o assert.o atoi.o atol.o calloc.o div.o exit.o ldiv.o malloc.o rand.o strupr.o bcmp.o bcopy.o bzero.o index.o memccpy.o memchr.o memcmp.o memcpy.o memmove.o mempcpy.o memset.o rindex.o strcat.o strchr.o strcmp.o strcoll.o strcpy.o strcspn.o strlcat.o strlcpy.o strlen.o strlwr.o strncat.o strncmp.o strncpy.o strnlen.o strrchr.o strspn.o strstr.o 
 
-OBJECTS = $(LIB_OBJECTS) test.o syscalls.o
+OBJECTS = $(LIB_OBJECTS) test.o test_ctype.o test_stdio.o test_stdlib.o test_string.o syscalls.o
 
 ## Objects explicitly added by the user
 LINKONLYOBJECTS = 
@@ -60,6 +61,18 @@ all: $(TARGET) $(LIB_TARGET) size
 test.o: ../../test.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
+test_ctype.o: ../../test_ctype.c
+	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+
+test_stdio.o: ../../test_stdio.c
+	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+
+test_stdlib.o: ../../test_stdlib.c
+	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+
+test_string.o: ../../test_string.c
+	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+	
 syscalls.o: $(COMMON_PATH)/syscalls_template/syscalls.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 

@@ -25,22 +25,30 @@
  * S. DI MERCURIO: 01-10-10 : first release
  *
  */
- 
-int test_ctype(void);
-int test_stdio(void);
-int test_stdlib (void);
-int test_string (void);
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
 
 volatile int res;
 
-int main (void)
+int test_ctype (void)
 {
-	res=0;
-
-	res = test_ctype();
-	res = test_stdio();
-	res = test_stdlib();
-	res = test_string();
+	res = isalpha('A');
+	res = isalnum('A');
+	res = isascii('A');
+	res = isblank('A');
+	res = iscntrl('A');
+	res = isdigit('A');
+	res = islower('A');
+	res = isprint('A');
+	res = ispunct('A');
+	res = isspace('A');
+	res = isupper('A');
+	res = isxdigit('A');
+	res = toascii('A');
+	res = tolower('A');
+	res = toupper('A');
 	
-	for (;;);
+	return res;
 }

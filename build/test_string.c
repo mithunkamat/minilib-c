@@ -17,30 +17,42 @@
  *
  ****************************************************
  *
- * File: test_ctype.c
- * Use : test bench for ctype functions
+ * File: test_string.c
+ * Use : test bench for string functions
  *
  ****************************************************
  *
  * S. DI MERCURIO: 01-10-10 : first release
  *
  */
- 
-int test_ctype(void);
-int test_stdio(void);
-int test_stdlib (void);
-int test_string (void);
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
 
 volatile int res;
+volatile long resl;
+char *buffer[10];
+char *ptr;
+div_t div_res;
+ldiv_t ldiv_res;
 
-int main (void)
+int test_string (void)
 {
-	res=0;
+/* standard ISO C 99 */
 
-	res = test_ctype();
-	res = test_stdio();
-	res = test_stdlib();
-	res = test_string();
-	
-	for (;;);
+	res = abs(100);
+	//assert(buffer, 1, stdin);
+	res = atoi("20");
+	resl = atol("20");
+	ptr = (char*)calloc(10,10);
+	div_res = div(10, 10);
+	ldiv_res = ldiv(10,10);
+	ptr = (char*)malloc(100);
+	srand (10);
+	res = rand ();
+	resl = strtol("100", ptr, 10);
+
+	exit(1);
+	return res;
 }
