@@ -36,11 +36,11 @@ volatile int res;
 int main (void)
 {
 	res=0;
-
+#if defined __MINILIB_TEST__
 	res = test_ctype();
 	res = test_stdio();
 	res = test_stdlib();
 	res = test_string();
-	
+#endif	
 	for (;;);
 }
