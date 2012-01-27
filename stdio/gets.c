@@ -67,15 +67,14 @@ Supporting OS subroutines required: <<close>>, <<fstat>>, <<isatty>>,
 <<lseek>>, <<read>>, <<sbrk>>, <<write>>.
 */
 
-#include <stdio.h>
-#include "syscalls.h"
+#include "stdio.h"
 
 char *gets(char *buf)
 {
 char c;
 register char *s = buf;
 
-	_read(stdin->_file, &c, 1);
+	stdin->_read(&c, 1);
 	
 	while (c != '\n')
 	{
@@ -89,7 +88,7 @@ register char *s = buf;
 		else
 			*s++ = c;
 		
-		_read(stdin->_file, &c, 1);
+		stdin->_read(&c, 1);
 	}
 	
 	*s = 0; 

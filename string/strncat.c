@@ -41,8 +41,8 @@ QUICKREF
 	strncat ansi pure
 */
 
-#include <string.h>
-#include <limits.h>
+#include "string.h"
+#include "limits.h"
 
 /* Nonzero if X is aligned on a "long" boundary.  */
 #define ALIGNED(X) \

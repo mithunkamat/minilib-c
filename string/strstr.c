@@ -34,7 +34,7 @@ QUICKREF
 	strstr ansi pure
 */
 
-#include <string.h>
+#include "string.h"
 
 char *strstr(const char *searchee, const char *lookfor)
 {

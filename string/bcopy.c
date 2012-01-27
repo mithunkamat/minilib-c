@@ -26,7 +26,7 @@ QUICKREF
 	bcopy - pure
 */
 
-#include <string.h>
+#include "string.h"
 
 void bcopy (const void *b1, void *b2, size_t length)
 {

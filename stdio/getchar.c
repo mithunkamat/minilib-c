@@ -67,9 +67,7 @@ Supporting OS subroutines required: <<close>>, <<fstat>>, <<isatty>>,
  * A subroutine version of the macro getchar.
  */
 
-#include <stdio.h>
-#include "missing_defs.h"
-#include "syscalls.h"
+#include "stdio.h"
 
 #undef getchar
 

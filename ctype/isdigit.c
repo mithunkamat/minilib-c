@@ -31,7 +31,7 @@ PORTABILITY
 No supporting OS subroutines are required.
 */
 
-#include <ctype.h>
+#include "ctype.h"
 
 #undef isdigit
 int isdigit (int c)

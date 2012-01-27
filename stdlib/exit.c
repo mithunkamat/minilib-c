@@ -45,7 +45,7 @@ ANSI C requires <<exit>>, and specifies that <<EXIT_SUCCESS>> and
 Supporting OS subroutines required: <<_exit>>.
 */
 
-#include <stdlib.h>
+#include "stdlib.h"
 
 /*
  * Exit, flushing stdio buffers if necessary.
@@ -56,4 +56,6 @@ void _exit(int code);
 void exit(int code)
 {
   _exit (code);
+
+  while (1);
 }

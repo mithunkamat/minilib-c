@@ -15,22 +15,19 @@
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  */
 /* No user fns here. Pesch 15apr92. */
-#include <stdio.h>
-#include <errno.h>
-#include "missing_defs.h"
-#include "syscalls.h"
+#include "stdio.h"
+#include "errno.h"
 
 /*
  * Handle getc() when the buffer ran out:
  * Refill, then return the first character
  * in the newly-filled buffer.
  */
-
 int __srget_r (struct _reent *ptr, register FILE *fp)
 {
 int c;
 
-	_read(fp->_file,(char *)&c,1);
+	fp->_read((char *)&c,1);
 	
 	return c;
 }
@@ -40,5 +37,9 @@ int c;
    earlier dynamically built newlib libraries. */
 int __srget (register FILE *fp)
 {
-	return _srget_r(_REENT, fp);
+int c;
+
+	fp->_read((char *)&c,1);
+
+	return c;
 }

@@ -43,9 +43,9 @@ Supporting OS subroutines required (only if enabled): <<close>>, <<fstat>>,
 <<getpid>>, <<isatty>>, <<kill>>, <<lseek>>, <<read>>, <<sbrk>>, <<write>>.
 */
 
-#include <assert.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include "assert.h"
+#include "stdlib.h"
+#include "stdio.h"
 
 #ifndef __AVR__
 /* func can be NULL, in which case no function information is given.  */

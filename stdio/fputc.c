@@ -71,12 +71,10 @@ Supporting OS subroutines required: <<close>>, <<fstat>>, <<isatty>>,
 <<lseek>>, <<read>>, <<sbrk>>, <<write>>.
 */
 
-#include <stdio.h>
-#include "missing_defs.h"
-#include "syscalls.h"
+#include "stdio.h"
 
 int fputc (int c, FILE *fp)
 {
-	return _write(fp->_file, (char*) &c, 1);	
+	return fp->_write((char*) &c, 1);	
 }
 

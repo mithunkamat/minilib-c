@@ -33,7 +33,7 @@ PORTABILITY
 No OS subroutines are required.
 */
 
-#include <ctype.h>
+#include "ctype.h"
 
 #undef isalnum
 int isalnum(int c)

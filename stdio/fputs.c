@@ -61,10 +61,7 @@ Supporting OS subroutines required: <<close>>, <<fstat>>, <<isatty>>,
 <<lseek>>, <<read>>, <<sbrk>>, <<write>>.
 */
 
-#include <stdio.h>
-#include <string.h>
-#include "missing_defs.h"
-#include "syscalls.h"
+#include "stdio.h"
 
 /*
  * Write the given string to the given file.
@@ -80,7 +77,7 @@ char *ptr;
 
 	while (*ptr)
 	{
-		status = _write(fp->_file, ptr, 1);
+		status = fp->_write(ptr, 1);
 		ptr++;
 	}
 

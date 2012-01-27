@@ -44,7 +44,7 @@ programs.
 No supporting OS subroutines are required.
 */ 
 
-#include <ctype.h>
+#include "ctype.h"
 
 #undef tolower
 int tolower(int c)

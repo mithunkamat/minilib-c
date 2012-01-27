@@ -560,24 +560,21 @@ Supporting OS subroutines required: <<close>>, <<fstat>>, <<isatty>>,
 <<lseek>>, <<read>>, <<sbrk>>, <<write>>.
 */
 
-#include <stdio.h>
-#include <stdarg.h>
-#include "missing_defs.h"
-#include "syscalls.h"
+#include "stdio.h"
 
-static void printchar(char **str, int c, int file)
+static void printchar(char **str, int c, FILE *fp)
 {	
 	if (str) {
 		**str = c;
 		++(*str);
 	}
-	else _write(file, (char*)&c, 1);
+	else fp->_write((char*)&c, 1);
 }
 
 #define PAD_RIGHT 1
 #define PAD_ZERO 2
 
-static int prints(char **out, const char *string, int width, int pad, int file)
+static int prints(char **out, const char *string, int width, int pad, FILE *fp)
 {
 	register int pc = 0, padchar = ' ';
 
@@ -595,18 +592,18 @@ static int prints(char **out, const char *string, int width, int pad, int file)
 	{
 		for ( ; width > 0; --width) 
 		{
-			printchar (out, padchar, file);
+			printchar (out, padchar, fp);
 			++pc;
 		}
 	}
 	for ( ; *string ; ++string) 
 	{
-		printchar (out, *string, file);
+		printchar (out, *string, fp);
 		++pc;
 	}
 	for ( ; width > 0; --width) 
 	{
-		printchar (out, padchar, file);
+		printchar (out, padchar, fp);
 		++pc;
 	}
 
@@ -616,7 +613,7 @@ static int prints(char **out, const char *string, int width, int pad, int file)
 /* the following should be enough for 32 bit int */
 #define PRINT_BUF_LEN 12
 
-static int printi(char **out, int i, int b, int sg, int width, int pad, int letbase, int file)
+static int printi(char **out, int i, int b, int sg, int width, int pad, int letbase, FILE *fp)
 {
 	char print_buf[PRINT_BUF_LEN];
 	register char *s;
@@ -626,7 +623,7 @@ static int printi(char **out, int i, int b, int sg, int width, int pad, int letb
 	if (i == 0) {
 		print_buf[0] = '0';
 		print_buf[1] = '\0';
-		return prints (out, print_buf, width, pad, file);
+		return prints (out, print_buf, width, pad, fp);
 	}
 
 	if (sg && b == 10 && i < 0) {
@@ -647,7 +644,7 @@ static int printi(char **out, int i, int b, int sg, int width, int pad, int letb
 
 	if (neg) {
 		if( width && (pad & PAD_ZERO) ) {
-			printchar (out, '-', file);
+			printchar (out, '-', fp);
 			++pc;
 			--width;
 		}
@@ -656,10 +653,10 @@ static int printi(char **out, int i, int b, int sg, int width, int pad, int letb
 		}
 	}
 
-	return pc + prints (out, s, width, pad, file);
+	return pc + prints (out, s, width, pad, fp);
 }
 
-static int print(int file, char **out, const char *format, va_list args )
+static int print(FILE *fp, char **out, const char *format, va_list args )
 {
 	register int width, pad;
 	register int pc = 0;
@@ -694,32 +691,32 @@ static int print(int file, char **out, const char *format, va_list args )
 			if( *format == 's' ) 
 			{
 				register char *s = (char *)va_arg( args, int ); // a revoir
-				pc += prints (out, s?s:"(null)", width, pad, file);
+				pc += prints (out, s?s:"(null)", width, pad, fp);
 				continue;
 			}
 
 			if( *format == 'd' ) 
 			{
-				pc += printi (out, va_arg( args, int ), 10, 1, width, pad, 'a', file);
+				pc += printi (out, va_arg( args, int ), 10, 1, width, pad, 'a', fp);
 				continue;
 			}
 			if( *format == 'i' ) 
 			{
-				pc += printi (out, va_arg( args, int ), 10, 1, width, pad, 'a', file);
+				pc += printi (out, va_arg( args, int ), 10, 1, width, pad, 'a', fp);
 				continue;
 			}
 			if( *format == 'x' ) 
 			{
-				pc += printi (out, va_arg( args, int ), 16, 0, width, pad, 'a', file);
+				pc += printi (out, va_arg( args, int ), 16, 0, width, pad, 'a', fp);
 				continue;
 			}
 			if( *format == 'X' ) 
 			{
-				pc += printi (out, va_arg( args, int ), 16, 0, width, pad, 'A', file);
+				pc += printi (out, va_arg( args, int ), 16, 0, width, pad, 'A', fp);
 				continue;
 			}
 			if( *format == 'u' ) {
-				pc += printi (out, va_arg( args, int ), 10, 0, width, pad, 'a', file);
+				pc += printi (out, va_arg( args, int ), 10, 0, width, pad, 'a', fp);
 				continue;
 			}
 			if( *format == 'c' ) 
@@ -727,13 +724,13 @@ static int print(int file, char **out, const char *format, va_list args )
 				/* char are converted to int then pushed on the stack */
 				scr[0] = (char)va_arg( args, int ); // A revoir
 				scr[1] = '\0';
-				pc += prints (out, scr, width, pad, file);
+				pc += prints (out, scr, width, pad, fp);
 				continue;
 			}
 		}
 		else {
 		out:
-			printchar (out, *format, file);
+			printchar (out, *format, fp);
 			++pc;
 		}
 	}
@@ -748,9 +745,9 @@ int printf(const char *format, ...)
         
         va_start( args, format );
 #ifdef __GNUC__
-        return print(stdout->_file, 0, format, args );
+        return print(stdout, 0, format, args );
 #else
-		return print(__stdout._file, 0, format, args );
+		return print(__stdout, 0, format, args );
 #endif /* __GNUC__*/
 }
 
@@ -759,7 +756,7 @@ int fprintf(FILE *fp, const char *format, ...)
         va_list args;
         
         va_start( args, format );
-        return print(fp->_file, 0, format, args );
+        return print(fp, 0, format, args );
 }
 
 int sprintf(char *out, const char *format, ...)

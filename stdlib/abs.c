@@ -34,7 +34,7 @@ PORTABILITY
 No supporting OS subroutines are required.
 */
 
-#include <stdlib.h>
+#include "stdlib.h"
 
 #ifdef __GNUC__
 int abs(int i)

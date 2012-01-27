@@ -40,7 +40,7 @@ PORTABILITY
 No supporting OS subroutines are required.
 */
 
-#include <ctype.h>
+#include "ctype.h"
 
 #undef isgraph
 int isgraph(int c)

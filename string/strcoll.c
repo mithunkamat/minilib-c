@@ -36,7 +36,7 @@ QUICKREF
 	strcoll ansi pure
 */
 
-#include <string.h>
+#include "string.h"
 
 int strcoll(const char *a, const char *b)
 {

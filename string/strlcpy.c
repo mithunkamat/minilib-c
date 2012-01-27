@@ -27,7 +27,7 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <string.h>
+#include "string.h"
 
 /*
  * Copy src to string dst of size siz.  At most siz-1 characters

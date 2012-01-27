@@ -67,15 +67,13 @@ Supporting OS subroutines required: <<close>>, <<fstat>>, <<isatty>>,
 <<lseek>>, <<read>>, <<sbrk>>, <<write>>.
 */
 
-#include <stdio.h>
-#include "missing_defs.h"
-#include "syscalls.h"
+#include "stdio.h"
 
 int fgetc(FILE *fp)
 {
 int val;
 
-	_read(fp->_file, (char*) &val, 1);
+	fp->_read((char*) &val, 1);
 
 	return val;
 }

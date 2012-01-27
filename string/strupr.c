@@ -30,8 +30,8 @@ QUICKREF
 	strupr
 */
 
-#include <string.h>
-#include <ctype.h>
+#include "string.h"
+#include "ctype.h"
 
 char *strupr(char *s)
 {

@@ -30,7 +30,7 @@ Neither ANSI C nor the System V Interface Definition (Issue 2) require
 <<bzero>> requires no supporting OS subroutines.
 */
 
-#include <string.h>
+#include "string.h"
 
 void bzero (void *b, size_t length)
 {

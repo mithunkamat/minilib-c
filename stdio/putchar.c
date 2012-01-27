@@ -64,9 +64,7 @@ Supporting OS subroutines required: <<close>>, <<fstat>>, <<isatty>>,
  * A subroutine version of the macro putchar.
  */
 
-#include <stdio.h>
-#include "missing_defs.h"
-#include "syscalls.h"
+#include "stdio.h"
 
 #undef putchar
 

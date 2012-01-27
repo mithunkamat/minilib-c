@@ -59,7 +59,7 @@ No supporting OS subroutines are required.
  * Andy Wilson, 2-Oct-89.
  */
 
-#include <stdlib.h>
+#include "stdlib.h"
 
 int atoi (const char *s)
 {

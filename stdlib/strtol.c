@@ -116,10 +116,10 @@ No supporting OS subroutines are required.
  * SUCH DAMAGE.
  */
 
-#include <limits.h>
-#include <ctype.h>
-#include <errno.h>
-#include <stdlib.h>
+#include "limits.h"
+#include "ctype.h"
+#include "errno.h"
+#include "stdlib.h"
 
 /*
  * Convert a string to a long integer.

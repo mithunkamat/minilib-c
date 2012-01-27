@@ -83,7 +83,7 @@ No supporting OS subroutines are required.
  * SUCH DAMAGE.
  */
 
-#include <stdlib.h>		/* ldiv_t */
+#include "stdlib.h"		/* ldiv_t */
 
 #ifdef __GNUC__
 ldiv_t ldiv (long num, long denom)

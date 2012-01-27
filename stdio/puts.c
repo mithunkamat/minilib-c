@@ -58,10 +58,8 @@ Supporting OS subroutines required: <<close>>, <<fstat>>, <<isatty>>,
 <<lseek>>, <<read>>, <<sbrk>>, <<write>>.
 */
 
-#include <stdio.h>
-#include <string.h>
-#include <string.h>
-#include "syscalls.h"
+#include "stdio.h"
+#include "string.h"
 
 /*
  * Write the given string to stdout, appending a newline.
@@ -69,7 +67,7 @@ Supporting OS subroutines required: <<close>>, <<fstat>>, <<isatty>>,
 
 int puts (const char *s)
 {
-	return _write(stdout->_file, (char *)s, strlen(s));
+	return stdout->_write((char *)s, strlen(s));
 }
 
 

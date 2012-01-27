@@ -35,7 +35,7 @@ QUICKREF
 	bcmp ansi pure
 */
 
-#include <string.h>
+#include "string.h"
 
 int bcmp(const void *m1, const void *m2, size_t n)
 {

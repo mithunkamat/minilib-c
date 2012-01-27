@@ -64,7 +64,7 @@ on two different systems.
 <<rand>> requires no supporting OS subroutines.
 */
 
-#include <stdlib.h>
+#include "stdlib.h"
 
 // This algorithm is extracted for ISO/IEC 9899:TC2 
 // It is portable but not so pseudo random

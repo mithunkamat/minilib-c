@@ -9,18 +9,17 @@
  *  modify your copy of syscalls.c to have it work as you like (current function implementations are just stubs)
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <errno.h>
-#include "missing_defs.h"
+#include "stdio.h"
+#include "stdlib.h"
+#include "errno.h"
 
 #ifdef __GNUC__
 #if !defined (__AVR__)
-	#include <sys/stat.h>
-	#include <sys/types.h>
+
+	#include "types.h"
 
 #else
-	//#include <sys/types.h>
+
 	#define ENOMEM -2
 	#define EAGAIN -3
 	#define EINVAL -4
@@ -84,43 +83,21 @@ int _open(const char *name, int flags, int mode)
 }
 
 /*
- * _read
- * Read from a file. 
- * 	file : file identifier (indicate on which channel/peripheral read data)
- * 	ptr : pointer to an array of char (provided by caller) in which store data
- *	len : amount of data to read
+ * _fopen
+ * Open a file. Minimal implementation:
  */
-int _read(int file, char *ptr, int len) 
+FILE *_fopen(const char *name, const char *_type) 
 {
-char *loc_ptr=ptr;
-
-	while (loc_ptr-ptr < len) 
-	{
-  		// insert your code here / call appropriate functions
-		loc_ptr++;
-	}	
-	
-	return len;
+	return NULL;
 }
 
 /*
- *	_write
- *  Write to a file. 
- * 	file : file identifier (indicate in which channel/peripheral write data)
- * 	ptr : pointer to an array of char (provided by caller) on which take data to write
- *	len : amount of data to write
+ * _fclose
+ * Close a file. Minimal implementation:
  */
-int _write(int file, char *ptr, int len) 
+int _fclose(FILE *fp)
 {
-char *loc_ptr=ptr;
-
-	while (loc_ptr-ptr < len) 
-	{
-  		// insert your code here / call appropriate functions
-		loc_ptr++;
-	}	
-	
-	return len;
+	return 0;
 }
 
 /*

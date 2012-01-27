@@ -185,8 +185,10 @@ behave differently when <[nbytes]> is zero.
 
 Supporting OS subroutines required: <<sbrk>>.  */
 
-#include <stdlib.h>
-#include "syscalls.h"
+#include "stdlib.h"
+
+void *_malloc(size_t size);
+void _free (void *ptr);
 
 void *malloc(size_t nbytes)
 {

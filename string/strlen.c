@@ -31,8 +31,8 @@ QUICKREF
 	strlen ansi pure
 */
 
-#include <string.h>
-#include <limits.h>
+#include "string.h"
+#include "limits.h"
 
 #define LBLOCKSIZE   (sizeof (long))
 #define UNALIGNED(X) ((long)X & (LBLOCKSIZE - 1))

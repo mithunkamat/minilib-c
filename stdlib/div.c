@@ -82,7 +82,7 @@ No supporting OS subroutines are required.
  * SUCH DAMAGE.
  */
 
-#include <stdlib.h>		/* div_t */
+#include "stdlib.h"		/* div_t */
 
 #ifdef __GNUC__
 div_t div (int num, int denom)

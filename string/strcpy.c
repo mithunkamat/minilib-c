@@ -32,8 +32,8 @@ QUICKREF
 	strcpy ansi pure
 */
 
-#include <string.h>
-#include <limits.h>
+#include "string.h"
+#include "limits.h"
 
 /* Nonzero if either X or Y is not aligned on a "long" boundary.  */
 #define UNALIGNED(X, Y) \

@@ -33,7 +33,7 @@ QUICKREF
 	memset ansi pure
 */
 
-#include <string.h>
+#include "string.h"
 
 #define LBLOCKSIZE (sizeof(long))
 #define UNALIGNED(X)   ((long)X & (LBLOCKSIZE - 1))

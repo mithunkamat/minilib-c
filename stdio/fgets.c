@@ -69,10 +69,7 @@ Supporting OS subroutines required: <<close>>, <<fstat>>, <<isatty>>,
 <<lseek>>, <<read>>, <<sbrk>>, <<write>>.
 */
 
-#include <stdio.h>
-#include <string.h>
-#include "missing_defs.h"
-#include "syscalls.h"
+#include "stdio.h"
 
 /*
  * Read at most n-1 characters from the given file.
@@ -88,7 +85,7 @@ char *fgets(char *buf, int n, FILE *fp)
 	index =0;
 	do
 	{
-		if (_read(fp->_file, (char*) &c, 1)>0)
+		if (fp->_read((char*) &c, 1)>0)
 		{
 			buf[index++]=c;
 		}

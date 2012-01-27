@@ -49,9 +49,10 @@ Supporting OS subroutines required: <<close>>, <<fstat>>, <<isatty>>,
 <<lseek>>, <<read>>, <<sbrk>>, <<write>>.
 */
 
-#include <string.h>
-#include <stdlib.h>
-#include "syscalls.h"
+#include "string.h"
+#include "stdlib.h"
+
+void *_malloc(size_t size);
 
 void *calloc(size_t n, size_t size)
 {

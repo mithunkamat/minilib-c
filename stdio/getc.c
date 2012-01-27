@@ -71,7 +71,7 @@ Supporting OS subroutines required: <<close>>, <<fstat>>, <<isatty>>,
 <<lseek>>, <<read>>, <<sbrk>>, <<write>>.
 */
 
-#include <stdio.h>
+#include "stdio.h"
 
 /*
  * A subroutine version of the macro getc.

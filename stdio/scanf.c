@@ -383,16 +383,13 @@ Supporting OS subroutines required: <<close>>, <<fstat>>, <<isatty>>,
 <<lseek>>, <<read>>, <<sbrk>>, <<write>>.
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include <ctype.h>
-#include "missing_defs.h"
-#include "syscalls.h"
+#include "stdio.h"
+#include "stdlib.h"
+#include "ctype.h"
 
 char *scan_string (const char *str, int base)
 {
-	char *str_ptr = (char*) str;
+	unsigned char *str_ptr = (unsigned char*) str;
 
 	switch (base)
 	{
@@ -410,7 +407,7 @@ char *scan_string (const char *str, int base)
 			break;
 	}
 
-	return str_ptr;
+	return (char*) str_ptr;
 }
 
 int sscanf(const char *str, const char *fmt, ...)
