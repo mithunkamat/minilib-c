@@ -14,24 +14,35 @@
  * IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  */
-/* No user fns here.  Pesch 15apr92. */
-
-#include "stdio.h"
-#include "errno.h"
 
 /*
- * Write the given character into the (probably full) buffer for
- * the given file.  Flush the buffer out if it is or becomes full,
- * or if c=='\n' and the file is line buffered.
- */
+FUNCTION
+<<fgetlen>>---get length of received data for this stream
 
-int __swbuf_r (struct _reent *ptr, register int c, register FILE *fp)
+INDEX
+	fgetlen
+
+ANSI_SYNOPSIS
+	#include <stdio.h>
+	int fgetlen(FILE *<[fp]>);
+
+DESCRIPTION
+Use <<fgetlen>> to get the amount of received data from the file or stream
+identified by <[fp]>.  
+
+RETURNS
+The amount of received data or -1 if there is no reception buffer
+
+PORTABILITY
+This function is not part of POSIX neither of ANSY
+
+*/
+
+#include "stdio.h"
+
+int fgetlen(FILE *fp)
 {
-char i;
-	
-	i = (char)c;
-	fp->_write (&i, 1);
-	
-	return 0;
+	if (fp->r_buf!=NULL) return fp->r_len;
+	else return -1;
 }
 

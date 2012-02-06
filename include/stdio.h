@@ -45,36 +45,18 @@ struct __FILE
 	int (* _read) (char *c, int len);
 	int (* _write) (char *c, int len);
 
-	char *r_buf;
-	char *w_buf;
-
 	int r_buf_size;
 	int w_buf_size;
-	
-	int r_len;
-	int w_len;
-	
-	char *r_ptr_in;
-	char *r_ptr_out;
-	
-	char *w_ptr_in;
-	char *w_ptr_out; 
 };
 
 typedef struct __FILE FILE;
 
 /* macro for initializing a FILE structure */
-#define _FILE_INIT(filename, read_func, write_func, read_buffer, write_buffer, read_buffer_size, write_buffer_size)\
+#define _FILE_INIT(filename, read_func, write_func, read_buffer_size, write_buffer_size)\
 FILE filename={ \
 	read_func,		\
 	write_func,		\
-	read_buffer,	\
-	write_buffer,	\
-	read_buffer_size,\
-	write_buffer_size,\
-	0,0, \
-	read_buffer,read_buffer,\
-	write_buffer,write_buffer}
+	0,0}
 
 #define	__SLBF	0x0001		/* line buffered */
 #define	__SNBF	0x0002		/* unbuffered */
@@ -122,7 +104,6 @@ extern FILE	*stdin;
 extern FILE	*stdout;
 extern FILE	*stderr;
 
-#include "tinyio.h"
 /*
  * Functions defined in ANSI C standard.
  */

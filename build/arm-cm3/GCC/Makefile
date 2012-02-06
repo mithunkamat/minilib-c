@@ -1,5 +1,5 @@
 ###############################################################################
-# Makefile for the project mini
+# Makefile for minilib-c project: target arm cortex-M3
 ###############################################################################
 
 ## Path
@@ -47,7 +47,7 @@ LDFLAGS +=  -Wl,-Map=mini.map -Wl,--gc-sections -nostartfiles -T Linker_Script_G
 INCLUDES = -I$(COMMON_PATH)/include 
 
 ## Objects that must be built in order to link
-LIB_OBJECTS = ctype_.o toupper.o isalnum.o isalpha.o isascii.o isblank.o iscntrl.o isdigit.o islower.o isprint.o ispunct.o isspace.o isupper.o isxdigit.o toascii.o tolower.o scanf.o fgetc.o fgets.o fputc.o fputs.o getchar.o puts.o putc.o gets.o getc.o rget.o wbuf.o printf.o putchar.o strtol.o abs.o assert.o atoi.o atol.o calloc.o div.o exit.o ldiv.o malloc.o rand.o strupr.o bcmp.o bcopy.o bzero.o index.o memccpy.o memchr.o memcmp.o memcpy.o memmove.o mempcpy.o memset.o rindex.o strcat.o strchr.o strcmp.o strcoll.o strcpy.o strcspn.o strlcat.o strlcpy.o strlen.o strlwr.o strncat.o strncmp.o strncpy.o strnlen.o strrchr.o strspn.o strstr.o impure.o
+LIB_OBJECTS = ctype_.o toupper.o isalnum.o isalpha.o isascii.o isblank.o iscntrl.o isdigit.o islower.o isprint.o ispunct.o isspace.o isupper.o isxdigit.o toascii.o tolower.o scanf.o fgetc.o fgets.o fputc.o fputs.o getchar.o puts.o putc.o gets.o getc.o rget.o wbuf.o printf.o putchar.o strtol.o abs.o assert.o atoi.o atol.o calloc.o div.o exit.o ldiv.o malloc.o rand.o strupr.o bcmp.o bcopy.o bzero.o index.o memccpy.o memchr.o memcmp.o memcpy.o memmove.o mempcpy.o memset.o rindex.o strcat.o strchr.o strcmp.o strcoll.o strcpy.o strcspn.o strlcat.o strlcpy.o strlen.o strlwr.o strncat.o strncmp.o strncpy.o strnlen.o strrchr.o strspn.o strstr.o misc.o
 
 APP_OBJECTS = test.o syscalls.o test_ctype.o test_stdio.o test_stdlib.o test_string.o Startup_GCC.o STM32F10x_GCC.o
 
@@ -299,7 +299,7 @@ strspn.o: $(COMMON_PATH)/string/strspn.c
 strstr.o: $(COMMON_PATH)/string/strstr.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
-impure.o: $(COMMON_PATH)/sys/impure.c
+misc.o: $(COMMON_PATH)/lib/misc.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 	
 ##Link
