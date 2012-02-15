@@ -1,6 +1,11 @@
 /*
  * System call stub for minilib C library
- * GPL licensed code (S. Di Mercurio and P. Acco)
+ *
+ * This code is distributed under BSD licence. A LICENCE.TXT file should be provided
+ * with this code. Please see LICENCE.txt file for questions aout redistribution, contribution
+ * or copyright.
+ *
+ * Authors: S. Di Mercurio and P. Acco (INSA - GEI, toulouse, france)
  * _________________
  * USAGE 
  *  copy this minilib/syscalls_template/syscalls.c in the project dir as syscalls.c
